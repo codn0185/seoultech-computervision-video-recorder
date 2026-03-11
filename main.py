@@ -21,8 +21,8 @@ FPS: int
 PREVIEW_MOD: int = 1
 RECORDER_MOD: int = 2
 # key Config
-SWITCH_MOD_KEY: int = 32  # Space
-EXIT_PROGRAM_KEY: int = 27  # ESC
+SWITCH_MOD_KEYCODE: int = 32  # Space
+EXIT_PROGRAM_KEYCODE: int = 27  # ESC
 
 
 # === Main Function ===
