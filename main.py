@@ -20,9 +20,21 @@ FPS: int
 # Mod Config
 PREVIEW_MOD: int = 1
 RECORDER_MOD: int = 2
+CURRENT_MOD: int = PREVIEW_MOD  # 현재 모드
 # key Config
 SWITCH_MOD_KEYCODE: int = 32  # Space
 EXIT_PROGRAM_KEYCODE: int = 27  # ESC
+
+
+# === Utilities ===
+def switch_mod() -> None:  # 모드 변경
+    global CURRENT_MOD, RECORDER_MOD, PREVIEW_MOD
+    if CURRENT_MOD == PREVIEW_MOD:
+        print("Mod Changed: Preview -> Recorder")
+        CURRENT_MOD = RECORDER_MOD
+    elif CURRENT_MOD == RECORDER_MOD:
+        print("Mod Changed: Recorder -> Preview")
+        CURRENT_MOD = PREVIEW_MOD
 
 
 # === Main Function ===
