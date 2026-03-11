@@ -12,6 +12,8 @@ print("-------------")
 
 
 # === Config ===
+# Config
+WINDOW_TITLE: str = "CCTV - 충청남도 천안시 서북구 신당동 482-22 세집매 삼거리"
 # Video Config
 VIDEO_URL = "rtsp://210.99.70.120:1935/live/cctv001.stream"  # CCTV001	127.1504447	36.8625719	세집매 삼거리	충청남도 천안시 서북구 신당동 482-22
 WIDTH: int
@@ -27,8 +29,9 @@ EXIT_PROGRAM_KEYCODE: int = 27  # ESC
 
 
 # === Utilities ===
-def switch_mod() -> None:  # 모드 변경
-    global CURRENT_MOD, RECORDER_MOD, PREVIEW_MOD
+# 모드 변경
+def switch_mod() -> None:
+    global CURRENT_MOD
     if CURRENT_MOD == PREVIEW_MOD:
         print("Mod Changed: Preview -> Recorder")
         CURRENT_MOD = RECORDER_MOD
@@ -39,7 +42,44 @@ def switch_mod() -> None:  # 모드 변경
 
 # === Main Function ===
 def main():
-    pass
+    video = cv.VideoCapture(VIDEO_URL)
+
+    if not video.isOpened():
+        print(f"Video is Unavailable: {VIDEO_URL}")
+        return
+
+    fps = min(video.get(cv.CAP_PROP_FPS), 1000)  # 최대 1000fps
+    wait_msec = int(1000 / fps)
+    print(f"{fps}fps ({wait_msec}ms)")
+
+    print("Start Program")
+    while True:
+        valid, frame = video.read()
+        if not valid:
+            print("Video is not Valid")
+            break
+
+        if CURRENT_MOD == RECORDER_MOD:  # Recorder Mod
+            cv.putText(  # 좌상단에 빨강 Record 글자 표시
+                img=frame,
+                text="Record",
+                org=(10, 15),
+                fontFace=cv.FONT_HERSHEY_DUPLEX,
+                fontScale=0.5,
+                color=(0, 0, 255),
+            )
+
+        cv.imshow(WINDOW_TITLE, frame)
+
+        keycode = cv.waitKey(wait_msec)
+        if keycode == EXIT_PROGRAM_KEYCODE:
+            print("Exit Program")
+            break
+        elif keycode == SWITCH_MOD_KEYCODE:
+            switch_mod()
+
+    video.release()
+    cv.destroyAllWindows()
 
 
 # === Run ===
