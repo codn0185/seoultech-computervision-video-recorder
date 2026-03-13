@@ -1,5 +1,11 @@
 {
     "cSpell.words": [
-        "rtsp"
-    ]
+        "fourcc",
+        "imshow",
+        "MJPG",
+        "numpy",
+        "rtsp",
+        "XVID"
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }
